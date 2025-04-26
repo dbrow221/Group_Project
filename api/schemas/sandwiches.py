@@ -15,6 +15,7 @@ class SandwichCreate(SandwichBase):
 class SandwichUpdate(BaseModel):
     sandwich_name: Optional[str] = None
     price: Optional[float] = None
+    description: Optional[str] = None
 
 
 class Sandwich(SandwichBase):
