@@ -21,6 +21,5 @@ class CustomerUpdate(BaseModel):
 
 class Customer(CustomerBase):
     id: int
-    order_id: Optional[int]
     class Config:
         from_attributes = True

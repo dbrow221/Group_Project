@@ -1,4 +1,5 @@
 from . import orders, order_details, recipes, sandwiches, resources, promotions, reviews, customers
+from ..dependencies.database import Base  # Ensure your models inherit from Base
 from ..dependencies.database import engine
 
 
