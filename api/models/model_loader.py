@@ -1,6 +1,4 @@
-from . import orders, order_details, recipes, sandwiches, resources
-from ..controllers import reviews, promotions, customers
-
+from . import orders, order_details, recipes, sandwiches, resources, promotions, reviews, customers
 from ..dependencies.database import engine
 
 
