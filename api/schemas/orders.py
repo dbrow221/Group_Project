@@ -17,7 +17,10 @@ class OrderCreate(OrderBase):
 class OrderUpdate(BaseModel):
     customer_name: Optional[str] = None
     description: Optional[str] = None
-    order_state: Optional[str] = None
+    order_status: Optional[str] = None
+    promotion_code: Optional[str] = None
+    order_date: Optional[datetime] = None
+    order_type: Optional[str] = None
 
 
 class Order(OrderBase):

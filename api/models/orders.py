@@ -12,5 +12,8 @@ class Order(Base):
     order_date = Column(DATETIME, nullable=False, server_default=str(datetime.now()))
     description = Column(String(300))
     order_status = Column(String(100))
+    order_type = Column(String(100))
 
+    promotion_code = Column(Integer, ForeignKey("promotions.code"))
+    promotion = relationship("Promotion", back_populates="orders")
     order_details = relationship("OrderDetail", back_populates="order")

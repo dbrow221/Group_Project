@@ -1,34 +1,27 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response
 from sqlalchemy.exc import SQLAlchemyError
-from ..models import reviews as model  # ✅ Good if the model is reviews.py
+from ..models import reviews as model  # Assuming your model file is called reviews.py
+from ..schemas.reviews import ReviewCreate, ReviewUpdate  # Ensure to import Pydantic models for validation
 
-def create(db: Session, request):
-    new_review = model.Review(
-        id=request.id,
-        sandwich_name=request.sandwich_name,
-        description=request.description,
-        date=request.date,
-    )
-
+def create(db: Session, request: ReviewCreate):  # Use Pydantic model for input validation
     try:
+        new_review = model.Review(**request.model_dump())  # Creating a new review with validated data
         db.add(new_review)
         db.commit()
         db.refresh(new_review)
     except SQLAlchemyError as e:
-        error = str(e.__dict__.get("orig", str(e)))
+        error = str(e.__dict__.get('orig', str(e)))
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return new_review
-
 
 def read_all(db: Session):
     try:
         return db.query(model.Review).all()
     except SQLAlchemyError as e:
-        error = str(e.__dict__.get("orig", str(e)))
+        error = str(e.__dict__.get('orig', str(e)))
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
-
 
 def read_one(db: Session, review_id: int):
     try:
@@ -37,23 +30,21 @@ def read_one(db: Session, review_id: int):
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Review ID not found!")
         return review
     except SQLAlchemyError as e:
-        error = str(e.__dict__.get("orig", str(e)))
+        error = str(e.__dict__.get('orig', str(e)))
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
-
-def update(db: Session, review_id: int, request):
+def update(db: Session, review_id: int, request: ReviewUpdate):  # Ensure to use the Pydantic model
     try:
         review = db.query(model.Review).filter(model.Review.id == review_id)
         if not review.first():
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Review ID not found!")
-        update_data = request.dict(exclude_unset=True)
+        update_data = request.dict(exclude_unset=True)  # Pydantic model validation for update
         review.update(update_data, synchronize_session=False)
         db.commit()
-        return review.first()
+        return review.first()  # Return the updated review
     except SQLAlchemyError as e:
-        error = str(e.__dict__.get("orig", str(e)))
+        error = str(e.__dict__.get('orig', str(e)))
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
-
 
 def delete(db: Session, review_id: int):
     try:
@@ -64,5 +55,5 @@ def delete(db: Session, review_id: int):
         db.commit()
         return Response(status_code=status.HTTP_204_NO_CONTENT)
     except SQLAlchemyError as e:
-        error = str(e.__dict__.get("orig", str(e)))
+        error = str(e.__dict__.get('orig', str(e)))
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)

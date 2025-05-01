@@ -2,26 +2,19 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response, Depends
 from ..models import customers as model
 from sqlalchemy.exc import SQLAlchemyError
+from ..schemas.customers import CustomerCreate  # make sure this import is present
 
-
-def create(db: Session, request):
-    new_item = model.Customer(
-        id=request.request.id,
-        name=request.request.name,
-        email=request.request.email,
-        phone=request.request.phone,
-        address=request.request.address,
-    )
-
+def create(db: Session, request: CustomerCreate):
     try:
-        db.add(new_item)
+        customer_data = request.model_dump()
+        new_customer = model.Customer(**customer_data)
+        db.add(new_customer)
         db.commit()
-        db.refresh(new_item)
+        db.refresh(new_customer)
+        return new_customer
     except SQLAlchemyError as e:
-        error = str(e.__dict__['orig'])
+        error = str(e.__dict__.get('orig', str(e)))
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
-
-    return new_item
 
 
 def read_all(db: Session):

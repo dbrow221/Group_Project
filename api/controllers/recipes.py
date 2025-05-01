@@ -1,26 +1,21 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status, Response
-from ..models import recipes as model
 from sqlalchemy.exc import SQLAlchemyError
+from ..models import recipes as model  # Assuming your model file is called recipes.py
+from ..schemas.recipes import RecipeCreate, RecipeUpdate  # Ensure these schemas are imported
 
-
-def create(db: Session, request):
-    new_item = model.Recipe(
-        sandwich_id=request.sandwich_id,
-        resource_id=request.resource_id,
-        amount=request.amount
-    )
-
+def create(db: Session, request: RecipeCreate):  # Make sure to pass the Pydantic schema
     try:
+        # Create a new recipe instance using data from the Pydantic model
+        new_item = model.Recipe(**request.model_dump())
         db.add(new_item)
         db.commit()
         db.refresh(new_item)
     except SQLAlchemyError as e:
-        error = str(e.__dict__['orig'])
+        error = str(e.__dict__.get('orig', str(e)))
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
 
     return new_item
-
 
 def read_all(db: Session):
     try:
@@ -30,8 +25,7 @@ def read_all(db: Session):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return result
 
-
-def read_one(db: Session, item_id):
+def read_one(db: Session, item_id: int):  # Added type hint for item_id
     try:
         item = db.query(model.Recipe).filter(model.Recipe.id == item_id).first()
         if not item:
@@ -41,8 +35,7 @@ def read_one(db: Session, item_id):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
     return item
 
-
-def update(db: Session, item_id, request):
+def update(db: Session, item_id: int, request: RecipeUpdate):  # Added type hint for item_id and request
     try:
         item = db.query(model.Recipe).filter(model.Recipe.id == item_id)
         if not item.first():
@@ -53,10 +46,9 @@ def update(db: Session, item_id, request):
     except SQLAlchemyError as e:
         error = str(e.__dict__['orig'])
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=error)
-    return item.first()
+    return item.first()  # Return the updated recipe
 
-
-def delete(db: Session, item_id):
+def delete(db: Session, item_id: int):  # Added type hint for item_id
     try:
         item = db.query(model.Recipe).filter(model.Recipe.id == item_id)
         if not item.first():

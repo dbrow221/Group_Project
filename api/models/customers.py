@@ -13,6 +13,4 @@ class Customer(Base):
     phone = Column(String(100), unique=True, nullable=False)
     address = Column(String(255), nullable=False)
 
-    # Assuming a customer can have many orders and recipes (if that's relevant)
-    orders = relationship("Order", back_populates="customer")
-    recipes = relationship("Recipe", back_populates="customer")  # Adjust as needed
+
