@@ -7,4 +7,5 @@ from .promotions import *
 from .reviews import *
 from .customers import *
 
+
 from ..dependencies.database import Base  # Shared declarative base for all models
