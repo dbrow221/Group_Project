@@ -10,6 +10,7 @@ def create(db: Session, request):
         name=request.request.name,
         email=request.request.email,
         phone=request.request.phone,
+        address=request.request.address,
     )
 
     try:

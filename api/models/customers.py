@@ -11,6 +11,7 @@ class Customer(Base):
     name = Column(String(100), nullable=False)
     email = Column(String(100), unique=True, nullable=False)
     phone = Column(String(100), unique=True, nullable=False)
+    address = Column(String(100), nullable=False)
 
     # Assuming a customer can have many orders and recipes (if that's relevant)
     orders = relationship("Order", back_populates="customer")
