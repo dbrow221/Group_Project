@@ -12,7 +12,7 @@ class CustomerBase(BaseModel):
 
 
 class CustomerCreate(CustomerBase):
-    pass  # Add fields like email, phone if needed
+    pass # Add fields like email, phone if needed
 
 
 class CustomerUpdate(BaseModel):
