@@ -11,7 +11,7 @@ class Promotion(Base):
     title = Column(String(100), nullable=False)
     description = Column(String(255), nullable=True)
     discount = Column(Float, nullable=False)
-    start_date = Column(DateTime, default=datetime.utcnow)
+    start_date = Column(DateTime, default=datetime)
     end_date = Column(DateTime, nullable=True)
 
     orders = relationship("Order", back_populates="promotion", lazy="selectin")
