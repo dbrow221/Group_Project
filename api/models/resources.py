@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, DATETIME
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, foreign
 from datetime import datetime
 from ..dependencies.database import Base
 
@@ -11,4 +11,8 @@ class Resource(Base):
     item = Column(String(100), unique=True, nullable=False)
     amount = Column(Integer, index=True, nullable=False, server_default='0.0')
 
-    recipes = relationship("Recipe",primaryjoin="resources.id == recipes.resources_id", back_populates="resource")
+    recipes = relationship(
+        "Recipe",
+        primaryjoin="Resource.id == foreign(Recipe.resource_id)",
+        back_populates="resource"
+    )

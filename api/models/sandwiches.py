@@ -14,4 +14,4 @@ class Sandwich(Base):
 
     recipes = relationship("Recipe",primaryjoin="sandwiches.id == recipes.sandwich_id", back_populates="sandwich")
     order_details = relationship("OrderDetail",primaryjoin="sandwiches.id == order_details.sandwich_id", back_populates="sandwich")
-    reviews = relationship("Review", primaryjoin="sandwiches.sandwich_name == reviews.sandwich_name", back_populates="sandwich")
+    reviews = relationship("Review", primaryjoin="Sandwich.sandwich_name == Review.sandwich_name", back_populates="sandwich")

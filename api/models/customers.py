@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, foreign
 from ..dependencies.database import Base
 
 class Customer(Base):
@@ -11,10 +11,8 @@ class Customer(Base):
     phone = Column(String(100), unique=True, nullable=False)
     address = Column(String(255), nullable=False)
 
-
-    # Add relationship to 'orders' here
     orders = relationship(
         "Order",
-        primaryjoin="Customer.id == Order.customer_id",
+        primaryjoin="Customer.id == foreign(Order.customer_id)",
         back_populates="customer"
     )

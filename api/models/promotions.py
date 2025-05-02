@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, foreign
 from datetime import datetime
 from ..dependencies.database import Base
 
@@ -16,5 +16,5 @@ class Promotion(Base):
         "Order",
         back_populates="promotion",
         lazy="selectin",
-        primaryjoin="Promotion.code == Order.promotion_code"  # Custom join condition
+        primaryjoin="Promotion.code == foreign(Order.promotion_code)"
     )

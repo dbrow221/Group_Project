@@ -1,7 +1,8 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, DATETIME
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, foreign
 from datetime import datetime
 from ..dependencies.database import Base
+
 
 class Review(Base):
     __tablename__ = "reviews"
@@ -15,5 +16,5 @@ class Review(Base):
         "Sandwich",
         back_populates="reviews",
         lazy="selectin",
-        primaryjoin="reviews.sandwich_name == sandwiches.sandwich_name"  # Custom join condition
+        primaryjoin="Review.sandwich_name == foreign(Sandwich.sandwich_name)"
     )

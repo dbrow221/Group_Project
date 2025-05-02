@@ -1,5 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, DECIMAL, DATETIME
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, foreign
 from datetime import datetime
 from ..dependencies.database import Base
 
@@ -11,5 +11,14 @@ class OrderDetail(Base):
     sandwich_id = Column(Integer, ForeignKey("sandwiches.id"))
     amount = Column(Integer, index=True, nullable=False)
 
-    order = relationship("Order", back_populates="order_details")
-    sandwich = relationship("Sandwich", back_populates="order_details")
+    order = relationship(
+        "Order",
+        primaryjoin="Order.id == foreign(OrderDetail.order_id)",
+        back_populates="order_details"
+    )
+
+    sandwich = relationship(
+        "Sandwich",
+        primaryjoin="Sandwich.id == foreign(OrderDetail.sandwich_id)",
+        back_populates="order_details"
+    )
