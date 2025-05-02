@@ -1,16 +1,19 @@
-from . import orders, order_details, recipes, sandwiches, resources, promotions, reviews, customers
-from ..dependencies.database import engine, Base  # Make sure Base is properly imported
+from ..dependencies.database import Base, engine
 
+# Explicitly import all models to register them with Base
+from .orders import Order
+from .order_details import OrderDetail
+from .recipes import Recipe
+from .sandwiches import Sandwich
+from .resources import Resource
+from .promotions import Promotion
+from .reviews import Review
+from .customers import Customer
 
 def index():
     try:
-        orders.Base.metadata.create_all(engine)
-        order_details.Base.metadata.create_all(engine)
-        recipes.Base.metadata.create_all(engine)
-        sandwiches.Base.metadata.create_all(engine)
-        resources.Base.metadata.create_all(engine)
-        reviews.Base.metadata.create_all(engine)
-        promotions.Base.metadata.create_all(engine)
-        customers.Base.metadata.create_all(engine)
+        Base.metadata.drop_all(engine)   # optional: to reset DB
+        Base.metadata.create_all(engine)
+        print("✅ Database tables created successfully.")
     except Exception as e:
-        print(f"Error creating tables: {e}")
+        print(f"❌ Error creating tables: {e}")

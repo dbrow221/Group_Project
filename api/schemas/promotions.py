@@ -19,8 +19,8 @@ class PromotionUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     discount_percent: Optional[float] = None
-    start_date: Optional[datetime] = None
-    end_date: Optional[datetime] = None
+
+
 
 
 class Promotion(PromotionBase):

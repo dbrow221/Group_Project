@@ -20,4 +20,8 @@ class Order(Base):
     order_details = relationship("OrderDetail", back_populates="order")
 
     # Add relationship to 'customer' here
-    customer = relationship("Customer", back_populates="orders")
+    customer = relationship(
+        "Customer",
+        primaryjoin="Customer.id == Order.customer_id",
+        back_populates="orders"
+    )

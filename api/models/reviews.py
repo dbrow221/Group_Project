@@ -11,3 +11,9 @@ class Review(Base):
     sandwich_name = Column(String(100), ForeignKey("sandwiches.sandwich_name"), nullable=False)
     date = Column(DATETIME, nullable=False)
 
+    sandwiches = relationship(
+        "Sandwich",
+        back_populates="reviews",
+        lazy="selectin",
+        primaryjoin="reviews.sandwich_name == sandwiches.sandwich_name"  # Custom join condition
+    )

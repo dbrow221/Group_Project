@@ -11,5 +11,10 @@ class Customer(Base):
     phone = Column(String(100), unique=True, nullable=False)
     address = Column(String(255), nullable=False)
 
+
     # Add relationship to 'orders' here
-    orders = relationship('Order', back_populates='customer')
+    orders = relationship(
+        "Order",
+        primaryjoin="Customer.id == Order.customer_id",
+        back_populates="customer"
+    )

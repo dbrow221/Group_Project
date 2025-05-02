@@ -12,3 +12,4 @@ class OrderDetail(Base):
     amount = Column(Integer, index=True, nullable=False)
 
     order = relationship("Order", back_populates="order_details")
+    sandwich = relationship("Sandwich", back_populates="order_details")
