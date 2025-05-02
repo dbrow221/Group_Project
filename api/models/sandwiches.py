@@ -12,6 +12,6 @@ class Sandwich(Base):
     price = Column(DECIMAL(4, 2), nullable=False, server_default='0.0')
     description = Column(String(1000), nullable=True)
 
-    recipes = relationship("Recipe",primaryjoin="sandwiches.id == recipes.sandwich_id", back_populates="sandwich")
-    order_details = relationship("OrderDetail",primaryjoin="sandwiches.id == order_details.sandwich_id", back_populates="sandwich")
+    recipes = relationship("Recipe",primaryjoin="Sandwich.id == Recipe.sandwich_id", back_populates="sandwich")
+    order_details = relationship("OrderDetail",primaryjoin="Sandwich.id == Order_detail.sandwich_id", back_populates="sandwich")
     reviews = relationship("Review", primaryjoin="Sandwich.sandwich_name == Review.sandwich_name", back_populates="sandwich")
