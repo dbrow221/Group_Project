@@ -28,5 +28,5 @@ class Order(Base):
         primaryjoin="Customer.id == foreign(Order.customer_id)",
         back_populates="orders"
     )
-
     order_details = relationship("OrderDetail", back_populates="order")
+

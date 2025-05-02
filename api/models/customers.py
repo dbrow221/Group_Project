@@ -14,5 +14,5 @@ class Customer(Base):
     orders = relationship(
         "Order",
         primaryjoin="Customer.id == foreign(Order.customer_id)",
-        back_populates="customer"
+        back_populates="customer"  # ✅ FIXED
     )
