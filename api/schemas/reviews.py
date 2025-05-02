@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 class ReviewBase(BaseModel):
     sandwich_name: str
-    id: int
+    comments: str
 
 
 class ReviewCreate(ReviewBase):
@@ -13,9 +13,9 @@ class ReviewCreate(ReviewBase):
 
 
 class ReviewUpdate(BaseModel):
-    description: Optional[str] = None
     date: Optional[datetime] = None
-
+    comments: Optional[str] = None
+    sandwich_name: Optional[str] = None
 
 class Review(ReviewBase):
     id: int

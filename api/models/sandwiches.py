@@ -26,6 +26,6 @@ class Sandwich(Base):
 
     reviews = relationship(
         "Review",
-        primaryjoin="Sandwich.id == foreign(Review.sandwich_id)",
+        primaryjoin="Sandwich.sandwich_name == foreign(Review.sandwich_name)",
         back_populates="sandwich"
     )
