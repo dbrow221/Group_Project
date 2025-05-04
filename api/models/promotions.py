@@ -14,7 +14,7 @@ class Promotion(Base):
 
     orders = relationship(
         "Order",
-        back_populates="promotion",
+        back_populates="promotions",
         lazy="selectin",
         primaryjoin="Promotion.code == foreign(Order.promotion_code)"
     )

@@ -32,3 +32,7 @@ def update(item_id: int, request: schema.RecipeUpdate, db: Session = Depends(get
 @router.delete("/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete(item_id: int, db: Session = Depends(get_db)):
     return controller.delete(db=db, item_id=item_id)
+
+@router.post("/{recipe_id}/resources", status_code=status.HTTP_201_CREATED)
+def add_resource_to_recipe(recipe_id: int, resource_id: int, quantity: float, db: Session = Depends(get_db)):
+    return controller.add_resource_to_recipe(db=db, recipe_id=recipe_id, resource_id=resource_id, quantity=quantity)

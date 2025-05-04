@@ -15,7 +15,7 @@ class Order(Base):
     total_price = Column(DECIMAL(10, 2))  # Add a total_price field
     promotion_code = Column(Integer, ForeignKey('promotions.code'))
 
-    order_details = relationship("OrderDetail", back_populates="order")
+    order_detail = relationship("OrderDetail", back_populates="orders")
     customer = relationship("Customer",primaryjoin='Customer.id==Order.customer_id', back_populates="orders")
 
     promotion = relationship("Promotion", primaryjoin="Promotion.code==Order.promotion_code", back_populates="orders")
