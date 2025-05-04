@@ -16,3 +16,4 @@ class Customer(Base):
         primaryjoin="Customer.id == foreign(Order.customer_id)",
         back_populates="customer"  # ✅ FIXED
     )
+

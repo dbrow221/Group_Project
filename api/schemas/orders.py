@@ -7,9 +7,11 @@ from .customers import Customer
 
 
 class OrderBase(BaseModel):
-    customer_name: str
+    customer_id: int  # Assuming this is still required
     description: Optional[str] = None
-
+    sandwich_id: int  # Include sandwich_id
+    quantity: int  # Include quantity
+    order_type: str
 
 class OrderCreate(OrderBase):
     pass
